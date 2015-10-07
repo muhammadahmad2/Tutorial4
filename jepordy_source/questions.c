@@ -81,6 +81,7 @@ void display_categories(void)
     	printf("%c ",categories[i]);
     }
     printf("\n");
+    // add questions, points, only unanswered questions
 }
 
 // Displays the question for the category and dollar value
