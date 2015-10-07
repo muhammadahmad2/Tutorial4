@@ -14,6 +14,7 @@
 void initialize_game(void)
 {
     // initialize each question struct and assign it to the questions array
+    questions[0].category = "Math";
 }
 
 // Displays each of the remaining categories and question dollar values that have not been answered
