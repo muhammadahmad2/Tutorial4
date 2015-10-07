@@ -31,13 +31,24 @@ void display_question(char *category, int value)
 // Returns true if the answer is correct for the question for that category and dollar value
 bool valid_answer(char *category, int value, char *answer)
 {
-    // Look into string comparison functions
+    for(int i = 0; i < 12; i++){
+        if((strcmp(category, &questions[i].category) == 0) && 
+            value == questions[i].value && 
+            strcmp(answer, &questions[i].answer) == 0){
+            return true;
+        }
+    }
+            
     return false;
 }
 
 // Returns true if the question has already been answered
 bool already_answered(char *category, int value)
 {
-    // lookup the question and see if it's already been marked as answered
+    for(int i = 0; i < 12; i++){
+        if(strcmp(category, &questions[i].category) == 0 && value == questions[i].value){
+            return questions[i].answered;
+        }
+    }
     return false;
 }
