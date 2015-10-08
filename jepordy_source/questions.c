@@ -77,10 +77,17 @@ void initialize_game(void)
 void display_categories(void)
 {
     // print categories and dollar values for each unanswered question in questions array
-    for (int i = 0; i < 3; i++ ) {
-    	printf("%c ",categories[i]);
-    }
-    printf("\n");
+    //for (int i = 0; i < 3; i++ ) {
+    	//printf("%c ",categories[i]);
+    //}
+	for (int i = 0; i < 3; i++) {
+		printf("/n%c: ", categories[i]);
+		for (int a = 0; i < 4; a++) {
+			if (!categories[i].question[a].answered) {
+				printf("%d ", categories[i].question[a].value);
+			}
+		}
+	}
 }
 
 // Displays the question for the category and dollar value
