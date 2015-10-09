@@ -19,13 +19,33 @@
 // Put global environment variables here
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
-void tokenize(char *input, char **tokens);
+void tokenize(char *input, char *tokens) {
+    char delim[256], answer[256];
+
+    strcpy(delim, " ");
+    tokens = strtok(input, delim);
+
+    while(tokens != NULL) {
+        if (strcmp(tokens, "What") == 0 || strcmp(tokens, "what") == 0) {
+
+            tokens = strtok(NULL, delim);
+            if (strcmp(tokens, "is") == 0) {
+                strcpy(delim, "?");
+                tokens = strtok(NULL, delim);
+                strcpy(answer, tokens); // store the question answer in the answer variable
+            }
+        }
+        tokens = strtok(NULL, delim);
+    }
+    strcpy(tokens, answer);
+    printf("%s\n", tokens);
+}
 
 // Displays the game results for each player, their name and final score, ranked from first to last place
 void show_results(player *players);
 
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     // An array of 4 players, may need to be a pointer if you want it set dynamically
     player players[4];
@@ -35,16 +55,22 @@ int main(int argc, char *argv[])
 
     // Display the game introduction and prompt for players names
     // initialize each of the players in the array
+    printf("Welcome to jeopardy!\nPlease enter the names of the four players participating:\n");
+    for(int i = 0; i < 4; i++) {
+        scanf("%s", players[i].name);
+    }
+
+    // Call functions from the questions and players source files
+    initialize_game();
 
     // Perform an infinite loop getting command input from users until game ends
     while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
     {
-        // Call functions from the questions and players source files
-        initialize_game();
-
         // Execute the game until all questions are answered
-       
-        // Display the final results and exit
     }
+
+    // Display the final results and exit
+    show_results(players);
+
     return EXIT_SUCCESS;
 }
