@@ -11,6 +11,7 @@
 #include <stdbool.h>
 
 #define MAX_LEN 256
+#define NUM_PLAYERS 4
 
 // Player struct for each player
 typedef struct {
