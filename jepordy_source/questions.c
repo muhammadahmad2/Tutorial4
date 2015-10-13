@@ -77,27 +77,19 @@ void initialize_game(void)
 void display_categories(void)
 {
     // print categories and dollar values for each unanswered question in questions array
-<<<<<<< HEAD
-    for (int i = 0; i < 3; i++ ) {
-    	printf("%c ",categories[i]);
-    }
-    printf("\n");
     // add questions, points, only unanswered questions
-=======
     //for (int i = 0; i < 3; i++ ) {
     	//printf("%c ",categories[i]);
     //}
-    /*
+
 	for (int i = 0; i < 3; i++) {
-		printf("/n%c: ", categories[i]);
-		for (int a = 0; i < 4; a++) {
-			if (!categories[i].question[a].answered) {
-				printf("%d ", categories[i].question[a].value);
+		printf("/n%s: ", categories[i]);
+		for (int a = 0; i < 12; a++) {
+			if (strcmp(questions[a].category, categories[i]) == 0 && (!questions[a].answered)) {
+				printf("%d ", questions[a].value);
 			}
 		}
 	}
-    */
->>>>>>> b59052f067962a27d0a3bbc02efcd72159427f60
 }
 
 // Displays the question for the category and dollar value
@@ -109,7 +101,7 @@ void display_question(char *category, int value)
 // Returns true if the answer is correct for the question for that category and dollar value
 bool valid_answer(char *category, int value, char *answer)
 {
-    for(int i = 0; i < 12; i++){
+    /*for(int i = 0; i < 12; i++){
         if((strcmp(category, &questions[i].category) == 0) && 
             value == questions[i].value && 
             strcmp(answer, &questions[i].answer) == 0){
@@ -117,16 +109,16 @@ bool valid_answer(char *category, int value, char *answer)
         }
     }
             
-    return false;
+    return false;*/
 }
 
 // Returns true if the question has already been answered
 bool already_answered(char *category, int value)
 {
-    for(int i = 0; i < 12; i++){
+    /*for(int i = 0; i < 12; i++){
         if(strcmp(category, &questions[i].category) == 0 && value == questions[i].value){
             return questions[i].answered;
         }
     }
-    return false;
+    return false;*/
 }
