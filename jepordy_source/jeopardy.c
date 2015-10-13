@@ -20,29 +20,24 @@
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
 void tokenize(char *input, char *tokens) {
-    char delim[256], answer[256];
+    char delim[BUFFER_LEN], answer[BUFFER_LEN];
 
     strcpy(delim, " ");
     tokens = strtok(input, delim);
 
-    while(tokens != NULL) {
-        if (strcmp(tokens, "What") == 0 || strcmp(tokens, "what") == 0 ||
-            strcmp(tokens,  "Who") == 0 || strcmp(tokens,  "who") == 0) {
+    if (strcmp(tokens, "What") == 0 || strcmp(tokens, "what") == 0 ||
+        strcmp(tokens,  "Who") == 0 || strcmp(tokens,  "who") == 0) {
 
-            tokens = strtok(NULL, delim);
-            if (strcmp(tokens, "is") == 0) {
-                strcpy(delim, "?");
-                tokens = strtok(NULL, delim);
-                strcpy(answer, tokens); // store the question answer in the answer variable
-            } else {
-                printf("%s", "Answer must be in the form of a question e.g. What is...? or Who is...?");
-                break;
-            }
-        } else {
-             printf("%s", "Answer must be in the form of a question e.g. What is...? or Who is...?");
-             break;
-        }
         tokens = strtok(NULL, delim);
+        if (strcmp(tokens, "is") == 0) {
+            strcpy(delim, "?");
+            tokens = strtok(NULL, delim); // get answer
+            strcpy(answer, tokens); // store the question answer in the answer variable
+        } else {
+            printf("%s", "1 Answer must be in the form of a question e.g. What is...? or Who is...?\n");
+        }
+    } else {
+        printf("%s", "2 Answer must be in the form of a question e.g. What is...? or Who is...?\n");
     }
     strcpy(tokens, answer);
 }
@@ -51,7 +46,7 @@ void quicksort(player *players, int first, int last) {
     int pivot, i, j;
     player temp;
     strcpy(temp.name, "");
-    temp.score = NULL;
+    temp.score = 0;
 
      if(first < last) {
          pivot = first;
@@ -92,6 +87,8 @@ int main(int argc, const char *argv[])
 {
     // An array of 4 players, may need to be a pointer if you want it set dynamically
     player players[4];
+    char input[BUFFER_LEN], tokens[BUFFER_LEN], category[BUFFER_LEN];
+    int value, playerIndex = 0, remainingQuestions = 12;
     
     // Input buffer and and commands
     char buffer[BUFFER_LEN] = { 0 };
@@ -99,7 +96,7 @@ int main(int argc, const char *argv[])
     // Display the game introduction and prompt for players names
     // initialize each of the players in the array
     printf("Welcome to jeopardy!\nPlease enter the names of the four players participating:\n");
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < (int)(sizeof(players) / sizeof(players[0])); i++) {
         scanf("%s", players[i].name);
     }
 
@@ -107,9 +104,37 @@ int main(int argc, const char *argv[])
     initialize_game();
 
     // Perform an infinite loop getting command input from users until game ends
-    while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
+    while (remainingQuestions != 0)
     {
+        if (playerIndex == sizeof(players) / sizeof(players[0]))
+            playerIndex = 0; // reset to first player
+
         // Execute the game until all questions are answered
+        printf("\n%s, please select a category from the following:", players[playerIndex].name);
+        display_categories();
+
+        // take input
+        scanf("%s", category);
+        printf("Please select a value in the category\n");
+        scanf("%d%*c", &value); // read in integer and delete newline character from buffer
+        printf("\n%d\n", value);
+
+        display_question(category, value);
+        printf("Please enter your answer: ");
+
+        fgets(input, BUFFER_LEN, stdin); // get input from console
+        tokenize(input, tokens);
+
+        if (valid_answer(tokens, value, input) == true) {
+            printf("Correct!\n");
+            update_score(players, players[playerIndex].name, value);
+            set_answered(category, value);
+            remainingQuestions--;
+        } else {
+            printf("That is the wrong answer\n");
+        }
+
+        playerIndex++;
     }
 
     // Display the final results and exit
