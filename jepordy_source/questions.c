@@ -83,13 +83,14 @@ void display_categories(void)
     //}
 
 	for (int i = 0; i < 3; i++) {
-		printf("/n%s: ", categories[i]);
-		for (int a = 0; i < 12; a++) {
-			if (strcmp(questions[a].category, categories[i]) == 0 && (!questions[a].answered)) {
+		printf("\n%s: ", categories[i]);
+		for (int a = 0; a < 12; a++) {
+			if ((strcmp(questions[a].category, categories[i]) == 0) && !(questions[a].answered)) {
 				printf("%d ", questions[a].value);
 			}
 		}
 	}
+    printf("\n");
 }
 
 // Displays the question for the category and dollar value
