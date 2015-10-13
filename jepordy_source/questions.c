@@ -95,7 +95,13 @@ void display_categories(void)
 // Displays the question for the category and dollar value
 void display_question(char *category, int value)
 {
-
+    for(int i = 0; i < 12; i++){
+        if(strcmp(category, &questions[i].category) == 0 &&
+            questions[i].value == value){
+            puts(questions[i].question);
+            break;
+        }
+    }
 }
 
 // Returns true if the answer is correct for the question for that category and dollar value
