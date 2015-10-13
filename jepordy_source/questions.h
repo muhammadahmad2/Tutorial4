@@ -43,4 +43,7 @@ extern bool valid_answer(char *category, int value, char *answer);
 // Returns true if the question has already been answered
 extern bool already_answered(char *category, int value);
 
+// Sets question to answered
+extern void set_answered(question question1);
+
 #endif /* QUESTIONS_H_ */

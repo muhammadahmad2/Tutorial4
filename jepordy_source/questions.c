@@ -129,3 +129,8 @@ bool already_answered(char *category, int value)
     }
     return false;*/
 }
+
+void set_answered(question question1) 
+{
+    question1.answered = true;
+}
