@@ -78,18 +78,15 @@ void display_categories(void)
 {
     // print categories and dollar values for each unanswered question in questions array
     // add questions, points, only unanswered questions
-    //for (int i = 0; i < 3; i++ ) {
-    	//printf("%c ",categories[i]);
-    //}
-
-	for (int i = 0; i < 3; i++) {
-		printf("\n%s: ", categories[i]);
-		for (int a = 0; a < 12; a++) {
-			if ((strcmp(questions[a].category, categories[i]) == 0) && !(questions[a].answered)) {
-				printf("%d ", questions[a].value);
-			}
-		}
-	}
+    for (int i = 0; i < 3; i++) {
+        printf("\n%s: ", categories[i]);
+        for (int a = 0; a < 12; a++) {
+            if ((strcmp(questions[a].category, categories[i]) == 0) 
+                && !(questions[a].answered)) {
+                printf("%d ", questions[a].value);
+            }
+        }
+    }
     printf("\n");
 }
 
@@ -108,29 +105,36 @@ void display_question(char *category, int value)
 // Returns true if the answer is correct for the question for that category and dollar value
 bool valid_answer(char *category, int value, char *answer)
 {
-    /*for(int i = 0; i < 12; i++){
+puts(category[3]);
+    for(int i = 0; i < 12; i++){
         if((strcmp(category, &questions[i].category) == 0) && 
-            value == questions[i].value && 
-            strcmp(answer, &questions[i].answer) == 0){
-            return true;
-        }
+            value == questions[i].value){ 
+            if(strcmp(answer, &questions[i].answer) == 0){
+                return true;
+            }
+        } 
     }
-            
-    return false;*/
+    return false;
 }
 
 // Returns true if the question has already been answered
 bool already_answered(char *category, int value)
 {
-    /*for(int i = 0; i < 12; i++){
-        if(strcmp(category, &questions[i].category) == 0 && value == questions[i].value){
+    for(int i = 0; i < 12; i++){
+        if(strcmp(category, &questions[i].category) == 0 
+            && value == questions[i].value){
             return questions[i].answered;
         }
     }
-    return false;*/
+    return false;
 }
 
-void set_answered(question question1) 
+void set_answered(char *category, int value) 
 {
-    question1.answered = true;
+    for(int i = 0; i < 12; i++){
+        if(strcmp(category, &questions[i].category) == 0 &&
+            value == questions[i].value){
+            questions[i].answered = true;
+        }
+    }
 }

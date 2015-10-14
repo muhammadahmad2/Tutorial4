@@ -44,6 +44,6 @@ extern bool valid_answer(char *category, int value, char *answer);
 extern bool already_answered(char *category, int value);
 
 // Sets question to answered
-extern void set_answered(question question1);
+extern void set_answered(char *category, int value);
 
 #endif /* QUESTIONS_H_ */
