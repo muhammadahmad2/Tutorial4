@@ -54,7 +54,7 @@ void initialize_game(void)
     strcpy(questions[7].answer, "persia");
 
     // initialize databases category
-    for (int i = 8; i < 12; i++ ) {
+    for (int i = 8; i < NUM_QUESTIONS; i++ ) {
     	strcpy(questions[i].category, categories[2]);
         questions[i].value = (i - 7) * 100;
         questions[i].answered = false;
@@ -80,7 +80,7 @@ void display_categories(void)
     // add questions, points, only unanswered questions
     for (int i = 0; i < 3; i++) {
         printf("\n%s: ", categories[i]);
-        for (int a = 0; a < 12; a++) {
+        for (int a = 0; a < NUM_QUESTIONS; a++) {
             if ((strcmp(questions[a].category, categories[i]) == 0) 
                 && !(questions[a].answered)) {
                 printf("%d ", questions[a].value);
@@ -93,7 +93,7 @@ void display_categories(void)
 // Displays the question for the category and dollar value
 void display_question(char *category, int value)
 {
-    for(int i = 0; i < 12; i++){
+    for(int i = 0; i < NUM_QUESTIONS; i++){
         if(strcmp(category, &questions[i].category) == 0 &&
             questions[i].value == value){
             puts(questions[i].question);
@@ -105,7 +105,7 @@ void display_question(char *category, int value)
 // Returns true if the answer is correct for the question for that category and dollar value
 bool valid_answer(char *category, int value, char *answer)
 {
-    for(int i = 0; i < 12; i++){
+    for(int i = 0; i < NUM_QUESTIONS; i++){
         if((strcmp(category, &questions[i].category) == 0) && 
             value == questions[i].value){ 
             if(strcmp(answer, &questions[i].answer) == 0){
@@ -119,7 +119,7 @@ bool valid_answer(char *category, int value, char *answer)
 // Returns true if the question has already been answered
 bool already_answered(char *category, int value)
 {
-    for(int i = 0; i < 12; i++){
+    for(int i = 0; i < NUM_QUESTIONS; i++){
         if(strcmp(category, &questions[i].category) == 0 
             && value == questions[i].value){
             return questions[i].answered;
@@ -128,12 +128,24 @@ bool already_answered(char *category, int value)
     return false;
 }
 
+// Sets question to answered
 void set_answered(char *category, int value) 
 {
-    for(int i = 0; i < 12; i++){
+    for(int i = 0; i < NUM_QUESTIONS; i++){
         if(strcmp(category, &questions[i].category) == 0 &&
             value == questions[i].value){
             questions[i].answered = true;
         }
     }
+}
+
+// Checks if category is valid
+bool is_category(char *category)
+{
+    for(int i = 0; i < NUM_QUESTIONS; i++){
+        if(strcmp(category, &questions[i].category) == 0){
+            return true;
+        }
+    }
+    return false;
 }

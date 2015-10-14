@@ -11,6 +11,7 @@
 #include <stdbool.h>
 
 #define MAX_LEN 256
+#define NUM_QUESTIONS 12
 
 // List of 3 categories as array of strings
 static char categories[3][MAX_LEN] = {"programming", "algorithms", "databases"};
@@ -26,7 +27,7 @@ typedef struct {
 
 // An array of 12 questions (4 for each category), initialized in initialize_game
 // this may need to be a pointer if you want it set dynamically
-question questions[12];
+question questions[NUM_QUESTIONS];
 
 // Initializes the array of questions for the game
 extern void initialize_game(void);
@@ -45,5 +46,8 @@ extern bool already_answered(char *category, int value);
 
 // Sets question to answered
 extern void set_answered(char *category, int value);
+
+// Checks if category is valid
+extern bool is_category(char *category);
 
 #endif /* QUESTIONS_H_ */
