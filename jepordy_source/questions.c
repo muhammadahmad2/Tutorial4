@@ -1,7 +1,7 @@
 /*
  * Tutorial 4 Jeopardy Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2015, <GROUP MEMBERS>
+ * Copyright (C) 2015, Muhammad Ahmad, Timothy MacDougall, David McDonald, Devin Westbye
  * All rights reserved.
  *
  */
@@ -142,8 +142,8 @@ void set_answered(char *category, int value)
 // Checks if category is valid
 bool is_category(char *category)
 {
-    for(int i = 0; i < NUM_QUESTIONS; i++){
-        if(strcmp(category, &questions[i].category) == 0){
+    for(int i = 0; i < 3; i++){
+        if(strcmp(category, categories[i]) == 0){
             return true;
         }
     }
