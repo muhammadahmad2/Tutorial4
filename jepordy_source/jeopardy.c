@@ -90,11 +90,26 @@ int main(int argc, const char *argv[])
     char input[BUFFER_LEN], tokens[BUFFER_LEN], category[BUFFER_LEN];
     int value, playerIndex = 0, remainingQuestions = 12;
 
+    // initialise players array
+    for (int i = 0; i < (int)(sizeof(players) / sizeof(players[0])); i++) {
+        strcpy(players[i].name, "");
+        players[i].score = 0;
+    }
+
     // Display the game introduction and prompt for players names
-    // initialize each of the players in the array
     printf("Welcome to jeopardy!\nPlease enter the names of the four players participating:\n");
+
     for(int i = 0; i < (int)(sizeof(players) / sizeof(players[0])); i++) {
-        scanf("%s", players[i].name);
+        while (true) {
+            scanf("%s", input); // get player name
+
+            if (player_exists(players, input)) {
+               printf("A player exists with that name already, please enter another\n");
+            } else {
+                strcpy(players[i].name, input);
+                break;
+            }
+        }
     }
 
     // Call functions from the questions and players source files
@@ -107,20 +122,28 @@ int main(int argc, const char *argv[])
 
         do {
             // Execute the game until all questions are answered
-            printf("\n%s, please select a category from the following:", players[playerIndex].name);
-            display_categories();
+            while (true) {
+                printf("\n%s, please select a category from the following:", players[playerIndex].name);
+                display_categories();
 
-            // take input
-            scanf("%s", category);
-            printf("Please select a value in the category\n");
-            scanf("%d%*c", &value); // read in integer and delete newline character from buffer
-            printf("\n%d\n", value);
+                // take input
+                scanf("%s", category);
+                if (is_category(category))
+                    break;
+            }
+            while (true) {
+                printf("Please select a value in the category\n");
+                scanf("%d%*c", &value); // read in integer and delete newline character from buffer
+                if (value == 100 || value == 200 || value == 300 || value == 400)
+                    break;
+            }
+
         } while (already_answered(category, value));
 
         display_question(category, value);
         printf("Please enter your answer: ");
 
-        fgets(input, BUFFER_LEN, stdin); // get input from console
+        fgets(input, BUFFER_LEN, stdin); // get input  from console
         strcpy(tokens, tokenize(input, tokens)); // tokenize input to get answer
 
         if (valid_answer(category, value, tokens) == true) {
@@ -129,9 +152,9 @@ int main(int argc, const char *argv[])
         } else {
             printf("That is the wrong answer\n");
         }
+
         set_answered(category, value);
         remainingQuestions--;
-
         playerIndex++;
     }
 
