@@ -11,7 +11,7 @@
 #define MAX_LEN 256
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
-extern void tokenize(char *input, char *tokens);
+extern char* tokenize(char *input, char *tokens);
 
 // Sorts the player array by lowest score to highest
 extern void quicksort(player *players, int first, int last);
