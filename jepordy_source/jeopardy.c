@@ -19,7 +19,7 @@
 // Put global environment variables here
 
 // Processes the answer from the user containing what is or who is and tokenizes it to retrieve the answer.
-void tokenize(char *input, char *tokens) {
+char* tokenize(char *input, char *tokens) {
     char delim[BUFFER_LEN], answer[BUFFER_LEN];
 
     strcpy(delim, " ");
@@ -30,16 +30,16 @@ void tokenize(char *input, char *tokens) {
 
         tokens = strtok(NULL, delim);
         if (strcmp(tokens, "is") == 0) {
-            strcpy(delim, "?");
+            strcpy(delim, "\n");
             tokens = strtok(NULL, delim); // get answer
             strcpy(answer, tokens); // store the question answer in the answer variable
         } else {
-            printf("%s", "1 Answer must be in the form of a question e.g. What is...? or Who is...?\n");
+            printf("Answer must be in the form of a question e.g. What is... or Who is...\n");
         }
     } else {
-        printf("%s", "2 Answer must be in the form of a question e.g. What is...? or Who is...?\n");
+        printf("Answer must be in the form of a question e.g. What is... or Who is...\n");
     }
-    strcpy(tokens, answer);
+    return tokens;
 }
 
 void quicksort(player *players, int first, int last) {
@@ -89,9 +89,6 @@ int main(int argc, const char *argv[])
     player players[4];
     char input[BUFFER_LEN], tokens[BUFFER_LEN], category[BUFFER_LEN];
     int value, playerIndex = 0, remainingQuestions = 12;
-    
-    // Input buffer and and commands
-    char buffer[BUFFER_LEN] = { 0 };
 
     // Display the game introduction and prompt for players names
     // initialize each of the players in the array
@@ -104,35 +101,36 @@ int main(int argc, const char *argv[])
     initialize_game();
 
     // Perform an infinite loop getting command input from users until game ends
-    while (remainingQuestions != 0)
-    {
+    while (remainingQuestions != 0) {
         if (playerIndex == sizeof(players) / sizeof(players[0]))
             playerIndex = 0; // reset to first player
 
-        // Execute the game until all questions are answered
-        printf("\n%s, please select a category from the following:", players[playerIndex].name);
-        display_categories();
+        do {
+            // Execute the game until all questions are answered
+            printf("\n%s, please select a category from the following:", players[playerIndex].name);
+            display_categories();
 
-        // take input
-        scanf("%s", category);
-        printf("Please select a value in the category\n");
-        scanf("%d%*c", &value); // read in integer and delete newline character from buffer
-        printf("\n%d\n", value);
+            // take input
+            scanf("%s", category);
+            printf("Please select a value in the category\n");
+            scanf("%d%*c", &value); // read in integer and delete newline character from buffer
+            printf("\n%d\n", value);
+        } while (already_answered(category, value));
 
         display_question(category, value);
         printf("Please enter your answer: ");
 
         fgets(input, BUFFER_LEN, stdin); // get input from console
-        tokenize(input, tokens);
+        strcpy(tokens, tokenize(input, tokens)); // tokenize input to get answer
 
-        if (valid_answer(tokens, value, input) == true) {
+        if (valid_answer(category, value, tokens) == true) {
             printf("Correct!\n");
             update_score(players, players[playerIndex].name, value);
-            set_answered(category, value);
-            remainingQuestions--;
         } else {
             printf("That is the wrong answer\n");
         }
+        set_answered(category, value);
+        remainingQuestions--;
 
         playerIndex++;
     }
